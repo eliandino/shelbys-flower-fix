@@ -94,7 +94,7 @@ nav {
 }
 .hero-decor {
   position: absolute;
-  z-index: 1;
+  /* z-index: 1; */
   right: clamp(10px, 4vw, 80px);
   bottom: clamp(-10px, -1vw, 20px);
   width: clamp(220px, 26vw, 380px);
@@ -107,8 +107,10 @@ nav {
 }
 .decor-flower {
   width: 100%;
-  right: -4%;
-  bottom: 14%;
+  height: 100%;
+  object-fit: cover;
+  right: 0;
+  bottom: 0;
   z-index: 3;
   border-radius: 15%;
 }
@@ -536,19 +538,27 @@ dialog img {
     display: flex;
   }
   .hero {
-    min-height: 740px;
+    height: auto;
+    min-height: 0;
+    align-items: flex-start;
   }
   .hero-decor {
-    display: none;
+    width: clamp(120px, 34vw, 190px);
+    right: 16px;
+    bottom: 16px;
   }
   .hero-copy {
+    display: flex;
+    flex-direction: column;
     margin: 0 24px;
     width: auto;
+    padding-bottom: calc(clamp(120px, 34vw, 190px) + 24px);
   }
   .hero h1 {
     font-size: 62px;
   }
   .actions {
+    order: 1;
     flex-direction: column;
     align-items: flex-start;
   }
