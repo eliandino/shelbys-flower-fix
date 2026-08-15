@@ -95,7 +95,7 @@ nav {
 .hero-decor {
   position: absolute;
   z-index: 1;
-  right: clamp(10px, 4vw, 60px);
+  right: clamp(10px, 4vw, 80px);
   bottom: clamp(-10px, -1vw, 20px);
   width: clamp(220px, 26vw, 380px);
   aspect-ratio: 1;
@@ -103,28 +103,29 @@ nav {
 }
 .hero-decor img {
   position: absolute;
-  filter: drop-shadow(0 14px 24px rgba(24, 60, 44, 0.28));
+  filter: drop-shadow(0 14px 24px rgba(14, 15, 14, 0.28));
 }
 .decor-flower {
-  width: 70%;
+  width: 100%;
   right: -4%;
-  bottom: -4%;
-  z-index: 1;
+  bottom: 14%;
+  z-index: 3;
+  border-radius: 15%;
 }
-.decor-kidney {
-  width: 46%;
-  left: 4%;
-  bottom: 16%;
+/* .decor-kidney {
+  width: 60%;
+  left: 25%;
+  bottom: 65%;
   z-index: 2;
   transform: rotate(-8deg);
-}
-.decor-bow {
-  width: 30%;
-  right: 24%;
-  top: 18%;
-  z-index: 3;
-  transform: rotate(12deg);
-}
+} */
+/* .decor-bow {
+  width: 95%;
+  right: -4%;
+  top: -30%;
+  z-index: 1;
+  transform: rotate(-12deg);
+} */
 .hero-copy {
   position: relative;
   z-index: 2;
