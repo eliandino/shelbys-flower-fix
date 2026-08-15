@@ -90,7 +90,40 @@ nav {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: rgb(232, 176, 229);
+  background: rgb(247, 217, 245);
+}
+.hero-decor {
+  position: absolute;
+  z-index: 1;
+  right: clamp(10px, 4vw, 60px);
+  bottom: clamp(-10px, -1vw, 20px);
+  width: clamp(220px, 26vw, 380px);
+  aspect-ratio: 1;
+  pointer-events: none;
+}
+.hero-decor img {
+  position: absolute;
+  filter: drop-shadow(0 14px 24px rgba(24, 60, 44, 0.28));
+}
+.decor-flower {
+  width: 70%;
+  right: -4%;
+  bottom: -4%;
+  z-index: 1;
+}
+.decor-kidney {
+  width: 46%;
+  left: 4%;
+  bottom: 16%;
+  z-index: 2;
+  transform: rotate(-8deg);
+}
+.decor-bow {
+  width: 30%;
+  right: 24%;
+  top: 18%;
+  z-index: 3;
+  transform: rotate(12deg);
 }
 .hero-copy {
   position: relative;
@@ -503,6 +536,9 @@ dialog img {
   }
   .hero {
     min-height: 740px;
+  }
+  .hero-decor {
+    display: none;
   }
   .hero-copy {
     margin: 0 24px;
