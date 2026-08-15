@@ -90,19 +90,12 @@ nav {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(232, 176, 229, 0.91) 0%,
-      rgba(232, 176, 229, 0.68) 43%,
-      rgba(232, 176, 229, 0.08) 75%
-    ),
-    url("assets/images/flower-13.jpg") center/cover;
+  background: rgb(232, 176, 229);
 }
 .hero-copy {
   position: relative;
   z-index: 2;
-  color: white;
+  color: var(--ink);
   width: min(690px, 90%);
   margin-left: 8vw;
   padding-top: 70px;
@@ -153,8 +146,8 @@ nav {
   color: white;
 }
 .ghost {
-  border-color: rgba(255, 255, 255, 0.6);
-  color: white;
+  border-color: rgba(37, 40, 34, 0.4);
+  color: var(--ink);
 }
 .hero small {
   font-family: var(--serif);
@@ -510,11 +503,6 @@ dialog img {
   }
   .hero {
     min-height: 740px;
-  }
-  .hero-bg {
-    background:
-      linear-gradient(rgba(232, 176, 229, 0.55), rgba(232, 176, 229, 0.85)),
-      url("assets/images/flower-13.jpg") center/cover;
   }
   .hero-copy {
     margin: 0 24px;
