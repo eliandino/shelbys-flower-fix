@@ -93,9 +93,9 @@ nav {
   background:
     linear-gradient(
       90deg,
-      rgba(18, 42, 30, 0.91) 0%,
-      rgba(18, 42, 30, 0.68) 43%,
-      rgba(18, 42, 30, 0.08) 75%
+      rgba(232, 176, 229, 0.91) 0%,
+      rgba(232, 176, 229, 0.68) 43%,
+      rgba(232, 176, 229, 0.08) 75%
     ),
     url("assets/images/flower-13.jpg") center/cover;
 }
@@ -115,7 +115,7 @@ nav {
   color: var(--pink);
 }
 .hero .eyebrow {
-  color: #f7a8c0;
+  color: var(--green);
 }
 .hero h1,
 .section h2,
@@ -130,7 +130,7 @@ nav {
   font-weight: 600;
 }
 .hero h1 em {
-  color: #f3c3d0;
+  color: var(--green);
   font-weight: 500;
 }
 .hero-copy > p:not(.eyebrow) {
@@ -513,7 +513,7 @@ dialog img {
   }
   .hero-bg {
     background:
-      linear-gradient(rgba(18, 42, 30, 0.55), rgba(18, 42, 30, 0.85)),
+      linear-gradient(rgba(232, 176, 229, 0.55), rgba(232, 176, 229, 0.85)),
       url("assets/images/flower-13.jpg") center/cover;
   }
   .hero-copy {
