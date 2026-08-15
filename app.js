@@ -19,12 +19,22 @@ images.slice(0, 8).forEach((src, i) => {
     `<article class="card"><img src="${src}" alt="Shelby floral arrangement ${i + 1}" loading="lazy"><div><h3>${titles[i % titles.length]}</h3><span>Handcrafted with heart ♡</span></div></article>`,
   );
 });
-document.querySelector("#prev").onclick = () =>
+function pauseThenResumeCarousel() {
+  clearInterval(carouselTimer);
+  clearTimeout(carouselResumeTimer);
+  carouselResumeTimer = setTimeout(startCarouselAutoplay, 4000);
+}
+document.querySelector("#prev").onclick = () => {
   carousel.scrollBy({ left: -410, behavior: "smooth" });
-document.querySelector("#next").onclick = () =>
+  pauseThenResumeCarousel();
+};
+document.querySelector("#next").onclick = () => {
   carousel.scrollBy({ left: 410, behavior: "smooth" });
+  pauseThenResumeCarousel();
+};
 
 let carouselTimer;
+let carouselResumeTimer;
 function autoScrollCarousel() {
   const atEnd =
     carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10;
@@ -37,15 +47,9 @@ function startCarouselAutoplay() {
   clearInterval(carouselTimer);
   carouselTimer = setInterval(autoScrollCarousel, 3000);
 }
-function stopCarouselAutoplay() {
-  clearInterval(carouselTimer);
-}
 startCarouselAutoplay();
-["mouseenter", "touchstart", "focusin"].forEach((evt) =>
-  carousel.addEventListener(evt, stopCarouselAutoplay),
-);
-["mouseleave", "touchend", "focusout"].forEach((evt) =>
-  carousel.addEventListener(evt, startCarouselAutoplay),
+["pointerdown", "wheel", "touchstart"].forEach((evt) =>
+  carousel.addEventListener(evt, pauseThenResumeCarousel, { passive: true }),
 );
 const grid = document.querySelector("#galleryGrid");
 let current = 0;
