@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#183c2c" />
+    <meta name="robots" content="noindex" />
+    <title>Payment Not Completed | Shelby's Flower Fix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" defer />
+  </head>
+  <body class="payment-page cancelled-page">
+    <header class="pay-header">
+      <a class="logo" href="index.html">Shelby's <span>Flower Fix</span></a>
+    </header>
+    <main class="pay-main">
+      <p class="status-icon">🌷</p>
+      <h1>Payment Not Completed</h1>
+      <p>
+        Your payment for<br />
+        <strong id="cancelOrderNumber">Order SFF-260902-A7K4</strong><br />
+        was not completed.
+      </p>
+      <p>No worries — your order is still saved. You can try again anytime.</p>
+      <div class="actions cancelled-actions">
+        <a class="btn primary" id="cancelRetryLink" href="pay.html"
+          >Try Again</a
+        ><a class="btn ghost" href="index.html">Back to Home</a>
+      </div>
+    </main>
+    <footer class="pay-footer">
+      <p>© <span id="year"></span> Shelby's Flower Fix</p>
+    </footer>
+    <script src="payment-cancelled.js" defer></script>
+  </body>
+</html>

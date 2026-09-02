@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#183c2c" />
+    <meta name="robots" content="noindex" />
+    <title>Complete Your Payment | Shelby's Flower Fix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" defer />
+  </head>
+  <body class="payment-page">
+    <header class="pay-header">
+      <a class="logo" href="index.html">Shelby's <span>Flower Fix</span></a>
+    </header>
+    <main class="pay-main">
+      <p class="eyebrow">Complete Your Payment</p>
+      <h1 id="payOrderNumber">SFF-000000-0000</h1>
+
+      <section class="receipt-card">
+        <div class="receipt-row receipt-customer">
+          <span class="receipt-label">Customer</span>
+          <span id="payCustomerName">—</span>
+        </div>
+        <div class="receipt-row receipt-summary">
+          <span class="receipt-label">Order Summary</span>
+          <div id="payOrderSummary">—</div>
+        </div>
+        <div class="receipt-divider"></div>
+        <div class="receipt-row">
+          <span>Arrangement</span><span id="payArrangementPrice">$0.00</span>
+        </div>
+        <div class="receipt-row">
+          <span>Delivery</span><span id="payDeliveryFee">$0.00</span>
+        </div>
+        <div class="receipt-row receipt-total">
+          <span>Total</span><span id="payTotal">$0.00</span>
+        </div>
+      </section>
+
+      <h2 class="pay-choose-heading">Choose How You'd Like to Pay</h2>
+
+      <!--
+        These are placeholder buttons — no payment provider is connected
+        yet. See pay.js for where the real Square/PayPal integrations will
+        be wired in (Phases 7-8), and the Zelle panel below for Phase 9.
+      -->
+      <div class="payment-options" id="paymentOptions">
+        <button type="button" class="payment-option" data-provider="card">
+          Credit / Debit Card
+        </button>
+        <button type="button" class="payment-option" data-provider="applepay">
+          Apple Pay
+        </button>
+        <button
+          type="button"
+          class="payment-option"
+          data-provider="googlepay"
+        >
+          Google Pay
+        </button>
+        <button type="button" class="payment-option" data-provider="cashapp">
+          Cash App
+        </button>
+        <button type="button" class="payment-option" data-provider="paypal">
+          PayPal
+        </button>
+        <button type="button" class="payment-option" data-provider="venmo">
+          Venmo
+        </button>
+        <button type="button" class="payment-option" data-provider="zelle">
+          Zelle
+        </button>
+      </div>
+
+      <!-- Revealed when "Zelle" is clicked above. Fill in Shelby's real
+           Zelle contact info and QR code image whenever they're ready. -->
+      <section id="zellePanel" class="zelle-panel" hidden>
+        <h3>Pay with Zelle</h3>
+        <p class="zelle-amount">
+          Amount Due: <strong id="zelleAmount">$0.00</strong>
+        </p>
+        <p class="zelle-order">
+          Order: <strong id="zelleOrderNumber">SFF-000000-0000</strong>
+        </p>
+        <div class="zelle-qr-placeholder">
+          <span>🌸</span>
+          <p>Zelle QR code coming soon</p>
+        </div>
+        <ol class="zelle-instructions">
+          <li>Open your banking app.</li>
+          <li>Select Zelle.</li>
+          <li>
+            Scan Shelby's QR code, or send to
+            <strong id="zelleContact">[Shelby's Zelle phone or email]</strong>.
+          </li>
+          <li>
+            Send exactly <strong id="zelleAmount2">$0.00</strong>.
+          </li>
+          <li>
+            Enter <strong id="zelleOrderNumber2">SFF-000000-0000</strong> in
+            the payment memo.
+          </li>
+        </ol>
+        <p class="zelle-note">
+          Once Shelby confirms she's received your Zelle payment, your order
+          will be marked as paid.
+        </p>
+      </section>
+
+      <p class="pay-disclaimer">
+        Payments are processed securely by Square or PayPal. Shelby's Flower
+        Fix never sees or stores your card details.
+      </p>
+    </main>
+    <footer class="pay-footer">
+      <p>© <span id="year"></span> Shelby's Flower Fix</p>
+    </footer>
+    <script src="pay.js" defer></script>
+  </body>
+</html>
