@@ -94,7 +94,7 @@ nav {
 }
 .hero-decor {
   position: absolute;
-  top: 0%;
+  top: 10%;
   right: 0%;
   bottom: 0%;
   width: clamp(0px, 0vw, 260px);
