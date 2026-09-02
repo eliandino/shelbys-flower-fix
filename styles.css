@@ -410,14 +410,20 @@ label {
   font-weight: 700;
   margin-bottom: 18px;
 }
+label[hidden] {
+  display: none;
+}
 input,
-select {
+select,
+textarea {
   width: 100%;
   padding: 14px;
   margin-top: 7px;
   border: 1px solid #d8d4cd;
   border-radius: 10px;
   background: #fcfaf6;
+  font-family: inherit;
+  resize: vertical;
 }
 form .btn {
   width: 100%;
@@ -428,6 +434,23 @@ form small {
   text-align: center;
   margin-top: 10px;
   color: var(--muted);
+}
+form .field-hint {
+  margin-top: -10px;
+  margin-bottom: 18px;
+}
+.order-confirmation {
+  margin-top: 18px;
+  padding: 18px 22px;
+  background: var(--blush);
+  border-radius: 14px;
+  text-align: center;
+}
+.order-confirmation p {
+  margin: 0;
+}
+.order-confirmation strong {
+  color: var(--pink);
 }
 .final-cta {
   padding: 120px 25px;

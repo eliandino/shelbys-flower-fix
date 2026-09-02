@@ -215,6 +215,22 @@
         </div>
         <form id="orderForm">
           <label
+            >Your name<input
+              id="customerName"
+              placeholder="Jessica Smith"
+              required /></label
+          ><label
+            >Phone number<input
+              id="customerPhone"
+              type="tel"
+              placeholder="(904) 555-1234"
+              required /></label
+          ><label
+            >Email (optional)<input
+              id="customerEmail"
+              type="email"
+              placeholder="jessica@email.com" /></label
+          ><label
             >Occasion<input
               id="occasion"
               placeholder="Birthday, sympathy, just because..." /></label
@@ -230,10 +246,44 @@
               id="colors"
               placeholder="Pink, white, sunflowers..." /></label
           ><label>Pickup or delivery date<input id="date" type="date" /></label
+          ><label
+            >Pickup or delivery?<select id="fulfillment">
+              <option>Pickup</option>
+              <option>Delivery</option>
+            </select></label
+          >
+          <!-- Only shown when "Delivery" is selected above; see app.js -->
+          <label id="deliveryAddressWrap" hidden
+            >Delivery address<textarea
+              id="deliveryAddress"
+              rows="2"
+              placeholder="Street, city, zip"></textarea></label
+          ><label
+            >Special instructions (optional)<textarea
+              id="specialInstructions"
+              rows="2"
+              placeholder="Vase style, allergy notes, delivery window..."></textarea></label
+          ><label
+            >Inspiration photo (optional)<input
+              id="inspirationImage"
+              type="file"
+              accept="image/*"
+          /></label>
+          <small class="field-hint"
+            >Photos can't be attached to the text yet — Shelby may follow up
+            asking you to text one directly.</small
           ><button class="btn primary" type="submit">
             Text Shelby My Request</button
           ><small>Delivery is available for an additional $10.</small>
         </form>
+        <!-- Shown after a successful submit so the customer can save their Order ID -->
+        <div id="orderConfirmation" class="order-confirmation" hidden>
+          <p>
+            🌸 Request sent! Your order number is
+            <strong id="confirmedOrderId"></strong>. Save it — Shelby will
+            reference it when she sends your quote.
+          </p>
+        </div>
       </section>
       <section class="final-cta">
         <div>

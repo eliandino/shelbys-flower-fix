@@ -107,9 +107,66 @@ document
       (a.onclick = () =>
         document.querySelector("nav").classList.remove("open")),
   );
+// Builds a short, human-readable order number like SFF-260902-A7K4.
+// This is generated in the browser for now since there's no backend yet
+// (Phase 1). Once a backend exists (Phase 3-4), it becomes the source of
+// truth for order numbers and this becomes just a display fallback.
+function generateOrderId() {
+  const now = new Date();
+  const yy = String(now.getFullYear()).slice(-2);
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  // Ambiguous characters (0/O, 1/I) are left out so IDs are easy to read
+  // back over the phone or type in by hand.
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let suffix = "";
+  for (let i = 0; i < 4; i++) {
+    suffix += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return `SFF-${yy}${mm}${dd}-${suffix}`;
+}
+
+// Delivery address is only relevant when "Delivery" is chosen, so it stays
+// hidden (and not required) until then.
+document.querySelector("#fulfillment").addEventListener("change", () => {
+  const isDelivery = fulfillment.value === "Delivery";
+  deliveryAddressWrap.hidden = !isDelivery;
+  deliveryAddress.required = isDelivery;
+});
+
 document.querySelector("#orderForm").addEventListener("submit", (e) => {
   e.preventDefault();
-  const msg = `Hi Shelby! I'd like to order a floral arrangement.%0A%0AOccasion: ${encodeURIComponent(occasion.value || "Not specified")}%0ABudget: ${encodeURIComponent(budget.value)}%0AColors/flowers: ${encodeURIComponent(colors.value || "Open to ideas")}%0ADate: ${encodeURIComponent(date.value || "Flexible")}%0A%0ACan you help me with some ideas?`;
+
+  const orderId = generateOrderId();
+  const isDelivery = fulfillment.value === "Delivery";
+
+  // Each entry becomes one line of the text to Shelby; `null` entries are
+  // dropped so optional fields don't show up as empty lines.
+  const lines = [
+    "🌸 Shelby's Flower Fix Order Request",
+    "",
+    `Order: ${orderId}`,
+    `Customer: ${customerName.value}`,
+    `Phone: ${customerPhone.value}`,
+    customerEmail.value ? `Email: ${customerEmail.value}` : null,
+    "",
+    `Occasion: ${occasion.value || "Not specified"}`,
+    `Budget: ${budget.value}`,
+    `Colors / Flowers: ${colors.value || "Open to ideas"}`,
+    `Requested Date: ${date.value || "Flexible"}`,
+    `Pickup / Delivery: ${fulfillment.value}`,
+    isDelivery ? `Delivery Address: ${deliveryAddress.value}` : null,
+    specialInstructions.value
+      ? `Special Instructions: ${specialInstructions.value}`
+      : null,
+    "",
+    "Please review my request and send me a final quote.",
+  ].filter((line) => line !== null);
+
+  orderConfirmation.hidden = false;
+  document.querySelector("#confirmedOrderId").textContent = orderId;
+
+  const msg = encodeURIComponent(lines.join("\n"));
   location.href = `sms:+19046163373?&body=${msg}`;
 });
 const io = new IntersectionObserver(
