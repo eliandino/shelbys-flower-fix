@@ -12,6 +12,8 @@ const titles = [
   "Made with Love",
 ];
 const categories = ["seasonal", "comfort", "celebration"];
+const placeholderDesc =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 const carousel = document.querySelector("#carousel");
 images.slice(0, 8).forEach((src, i) => {
   carousel.insertAdjacentHTML(
@@ -60,7 +62,7 @@ function renderGallery(filter = "all") {
     if (filter === "all" || filter === cat)
       grid.insertAdjacentHTML(
         "beforeend",
-        `<figure data-index="${i}" data-cat="${cat}"><img src="${src}" alt="Custom floral design ${i + 1}" loading="lazy"></figure>`,
+        `<figure data-index="${i}" data-cat="${cat}"><img src="${src}" alt="Custom floral design ${i + 1}" loading="lazy"><figcaption><h4>${titles[i % titles.length]}</h4><p>${placeholderDesc}</p></figcaption></figure>`,
       );
   });
 }
@@ -77,8 +79,6 @@ const dlg = document.querySelector("#lightbox"),
   lb = document.querySelector("#lightboxImg"),
   lbTitle = document.querySelector("#lightboxTitle"),
   lbDesc = document.querySelector("#lightboxDesc");
-const placeholderDesc =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 function showImage(i) {
   current = i;
   lb.src = images[current];
