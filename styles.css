@@ -251,6 +251,7 @@ nav {
   border-radius: 30px 30px 30px 30px;
   max-height: 650px;
   object-fit: cover;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
 }
 .about-copy p {
   max-width: 650px;
