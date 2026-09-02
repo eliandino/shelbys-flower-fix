@@ -246,6 +246,7 @@ nav {
   grid-template-columns: 1fr 1fr;
   gap: 8vw;
   align-items: center;
+  background: #f3ebe3;
 }
 .about-photo img {
   border-radius: 30px 30px 30px 30px;
