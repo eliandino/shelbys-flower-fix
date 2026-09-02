@@ -98,7 +98,7 @@ nav {
   bottom: 6%;
   width: clamp(140px, 18vw, 260px);
   aspect-ratio: 1 / 1;
-  border-radius: 50%;
+  border-radius: 10px 20px 50px 20px;
   object-fit: cover;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
 }
@@ -144,6 +144,9 @@ nav {
   display: flex;
   gap: 12px;
   margin: 32px 0;
+}
+.actions .short {
+  display: none;
 }
 .btn {
   display: inline-block;
@@ -243,7 +246,7 @@ nav {
   align-items: center;
 }
 .about-photo img {
-  border-radius: 260px 260px 30px 30px;
+  border-radius: 30px 30px 30px 30px;
   max-height: 650px;
   object-fit: cover;
 }
@@ -520,6 +523,12 @@ dialog img {
   }
   .hero h1 {
     font-size: 62px;
+  }
+  .actions .full {
+    display: none;
+  }
+  .actions .short {
+    display: inline;
   }
   .section {
     padding: 75px 22px;
