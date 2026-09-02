@@ -92,6 +92,16 @@ nav {
   inset: 0;
   background: rgb(247, 217, 245);
 }
+.hero-decor {
+  position: absolute;
+  right: 5%;
+  bottom: 6%;
+  width: clamp(140px, 18vw, 260px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
 .hero-copy {
   position: relative;
   z-index: 2;
