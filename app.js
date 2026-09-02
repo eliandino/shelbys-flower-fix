@@ -74,22 +74,29 @@ document.querySelectorAll(".filters button").forEach(
     }),
 );
 const dlg = document.querySelector("#lightbox"),
-  lb = document.querySelector("#lightboxImg");
+  lb = document.querySelector("#lightboxImg"),
+  lbTitle = document.querySelector("#lightboxTitle"),
+  lbDesc = document.querySelector("#lightboxDesc");
+const placeholderDesc =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+function showImage(i) {
+  current = i;
+  lb.src = images[current];
+  lbTitle.textContent = titles[current % titles.length];
+  lbDesc.textContent = placeholderDesc;
+}
 grid.addEventListener("click", (e) => {
   const f = e.target.closest("figure");
   if (!f) return;
-  current = +f.dataset.index;
-  lb.src = images[current];
+  showImage(+f.dataset.index);
   dlg.showModal();
 });
 document.querySelector("#closeLightbox").onclick = () => dlg.close();
 document.querySelector(".lb-prev").onclick = () => {
-  current = (current - 1 + images.length) % images.length;
-  lb.src = images[current];
+  showImage((current - 1 + images.length) % images.length);
 };
 document.querySelector(".lb-next").onclick = () => {
-  current = (current + 1) % images.length;
-  lb.src = images[current];
+  showImage((current + 1) % images.length);
 };
 document.querySelector(".menu").onclick = () =>
   document.querySelector("nav").classList.toggle("open");

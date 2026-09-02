@@ -461,6 +461,24 @@ dialog img {
   max-width: 90vw;
   border-radius: 10px;
 }
+.lb-caption {
+  max-width: 90vw;
+  padding: 14px 20px 4px;
+  text-align: center;
+}
+.lb-caption h3 {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 4px;
+}
+.lb-caption p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 480px;
+  margin: 0 auto;
+}
 #closeLightbox,
 .lb-prev,
 .lb-next {
