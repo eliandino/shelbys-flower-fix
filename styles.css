@@ -381,8 +381,10 @@ nav {
 }
 .order {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8vw;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  max-width: 640px;
+  margin: 0 auto;
 }
 .steps {
   display: grid;
