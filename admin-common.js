@@ -73,6 +73,19 @@ async function updateOrderStatus(orderNumber, status) {
   return res.json();
 }
 
+async function saveOrderQuote(orderNumber, { arrangementPrice, deliveryFee }) {
+  const res = await fetch(
+    `${API_BASE_URL}/api/admin/orders/${encodeURIComponent(orderNumber)}/quote`,
+    {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ arrangementPrice, deliveryFee }),
+    },
+  );
+  if (!res.ok) throw new Error("Failed to save quote");
+  return res.json();
+}
+
 async function markOrderPaid(orderNumber) {
   const res = await fetch(
     `${API_BASE_URL}/api/admin/orders/${encodeURIComponent(orderNumber)}/mark-paid`,

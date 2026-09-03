@@ -702,6 +702,7 @@ dialog img {
 .receipt-summary div {
   font: 500 18px/1.5 var(--serif);
   color: var(--ink);
+  white-space: pre-line;
 }
 .receipt-divider {
   border-top: 1px solid #eee;
@@ -779,6 +780,15 @@ dialog img {
   margin-top: 40px;
   font-size: 12px;
   color: var(--muted);
+}
+.pay-paid-note {
+  margin: 20px 0 0;
+  padding: 16px;
+  border-radius: 14px;
+  background: #e3ede7;
+  color: var(--green);
+  font-weight: 600;
+  text-align: center;
 }
 .pay-footer {
   text-align: center;
@@ -980,6 +990,65 @@ dialog img {
   font-size: 12px;
   color: var(--muted);
   margin: 14px 0 0;
+}
+.quote-error {
+  color: var(--pink);
+}
+.admin-price-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.admin-price-inputs label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.admin-price-inputs input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border: 1px solid #d8d4cd;
+  border-radius: 10px;
+  background: #fcfaf6;
+  font: inherit;
+}
+#saveQuoteButton {
+  width: 100%;
+  margin-top: 4px;
+}
+.admin-payment-link {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+.admin-payment-link label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.admin-payment-link-row {
+  display: flex;
+  gap: 8px;
+  margin: 6px 0 12px;
+}
+.admin-payment-link-row input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #d8d4cd;
+  border-radius: 10px;
+  background: #fcfaf6;
+  font-size: 13px;
+  color: var(--muted);
+}
+.admin-payment-link-row .btn {
+  width: auto;
+  padding: 12px 18px;
+}
+.admin-payment-link #textCustomerButton {
+  width: 100%;
 }
 .admin-actions {
   display: flex;

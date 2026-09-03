@@ -60,19 +60,50 @@
 
         <section class="admin-card">
           <h2>Pricing</h2>
-          <div class="receipt-row">
-            <span>Arrangement</span><span id="detailArrangement"></span>
-          </div>
-          <div class="receipt-row">
-            <span>Delivery</span><span id="detailDeliveryFee"></span>
+          <div class="admin-price-inputs">
+            <label
+              >Arrangement ($)
+              <input
+                id="quoteArrangement"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="75.00"
+            /></label>
+            <label
+              >Delivery ($)
+              <input
+                id="quoteDelivery"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="10.00"
+            /></label>
           </div>
           <div class="receipt-row receipt-total">
-            <span>Total</span><span id="detailTotal"></span>
+            <span>Total</span><span id="quoteTotalPreview">$0.00</span>
           </div>
-          <p class="admin-note">
-            Setting a price is coming in the next phase — for now this just
-            shows what's on the order.
-          </p>
+          <button type="button" id="saveQuoteButton" class="btn primary">
+            Save Quote
+          </button>
+          <p id="quoteError" class="admin-note quote-error" hidden></p>
+
+          <div id="paymentLinkBox" class="admin-payment-link" hidden>
+            <label for="paymentLinkInput">Payment link for the customer</label>
+            <div class="admin-payment-link-row">
+              <input id="paymentLinkInput" type="text" readonly />
+              <button type="button" id="copyLinkButton" class="btn ghost">
+                Copy
+              </button>
+            </div>
+            <button
+              type="button"
+              id="textCustomerButton"
+              class="btn primary"
+            >
+              Text Customer the Quote
+            </button>
+          </div>
         </section>
 
         <section class="admin-card">

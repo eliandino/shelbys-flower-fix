@@ -53,6 +53,36 @@ ordersRouter.post("/", createOrderLimiter, async (req, res) => {
   res.status(201).json(toPublicOrder(order));
 });
 
+// Keeps a lost/leaked payment link from being useful for brute-forcing
+// other tokens. The token itself already has 192 bits of randomness, so
+// this is defense-in-depth rather than the main protection.
+const lookupByTokenLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Powers pay.html: given the long random token from a payment link (never
+// the human-readable order number), returns the order Shelby quoted. This
+// is what makes the price on that page trustworthy — the customer's
+// browser only ever displays what this endpoint says, never a URL param.
+ordersRouter.get(
+  "/by-token/:token",
+  lookupByTokenLimiter,
+  async (req, res) => {
+    const order = await prisma.order.findUnique({
+      where: { paymentToken: req.params.token },
+    });
+
+    if (!order) {
+      return res.status(404).json({ error: "Payment link not found or expired." });
+    }
+
+    res.json(toPublicOrder(order));
+  },
+);
+
 // Looked up by the human-readable order number rather than the internal
 // id, since that's the only identifier the customer actually has.
 ordersRouter.get("/:orderNumber", async (req, res) => {

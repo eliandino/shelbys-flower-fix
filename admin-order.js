@@ -3,6 +3,11 @@
 const params = new URLSearchParams(location.search);
 const orderNumber = params.get("order");
 
+// Kept up to date by renderOrder() so the quote/action button handlers
+// below always have the latest order data (customer phone, order number,
+// total, payment link) without needing to re-fetch on every click.
+let currentOrder = null;
+
 async function loadOrder() {
   if (!orderNumber) {
     document.querySelector("#adminDetailError").hidden = false;
@@ -23,6 +28,8 @@ async function loadOrder() {
 // form, so this is what keeps a mischievous submission from being able
 // to run as HTML/script in Shelby's browser.
 function renderOrder(order) {
+  currentOrder = order;
+
   document.querySelector("#detailOrderNumber").textContent = order.orderNumber;
 
   const badge = document.querySelector("#detailStatusBadge");
@@ -69,15 +76,7 @@ function renderOrder(order) {
   document.querySelector("#detailInstructions").textContent =
     order.specialInstructions || "—";
 
-  document.querySelector("#detailArrangement").textContent = formatMoney(
-    order.arrangementPrice,
-  );
-  document.querySelector("#detailDeliveryFee").textContent = formatMoney(
-    order.deliveryFee,
-  );
-  document.querySelector("#detailTotal").textContent = formatMoney(
-    order.totalAmount,
-  );
+  renderPricing(order);
 
   document.querySelector("#detailPaymentStatus").textContent = order.paymentMethod
     ? `${statusLabel(order.paymentStatus)} · ${order.paymentMethod}`
@@ -87,6 +86,116 @@ function renderOrder(order) {
 
   document.querySelector("#adminDetail").hidden = false;
 }
+
+function renderPricing(order) {
+  const arrangementInput = document.querySelector("#quoteArrangement");
+  const deliveryInput = document.querySelector("#quoteDelivery");
+
+  // Only overwrite what Shelby's typed if this is a fresh render (e.g.
+  // right after loading), not after every keystroke.
+  if (document.activeElement !== arrangementInput) {
+    arrangementInput.value =
+      order.arrangementPrice != null ? (order.arrangementPrice / 100).toFixed(2) : "";
+  }
+  if (document.activeElement !== deliveryInput) {
+    deliveryInput.value =
+      order.deliveryFee != null ? (order.deliveryFee / 100).toFixed(2) : "";
+  }
+
+  updateTotalPreview();
+  renderPaymentLinkBox(order);
+}
+
+function updateTotalPreview() {
+  const arrangement = Number(document.querySelector("#quoteArrangement").value) || 0;
+  const delivery = Number(document.querySelector("#quoteDelivery").value) || 0;
+  document.querySelector("#quoteTotalPreview").textContent = formatMoney(
+    Math.round((arrangement + delivery) * 100),
+  );
+}
+
+document
+  .querySelector("#quoteArrangement")
+  .addEventListener("input", updateTotalPreview);
+document
+  .querySelector("#quoteDelivery")
+  .addEventListener("input", updateTotalPreview);
+
+function renderPaymentLinkBox(order) {
+  const box = document.querySelector("#paymentLinkBox");
+  if (!order.paymentUrl) {
+    box.hidden = true;
+    return;
+  }
+  box.hidden = false;
+  document.querySelector("#paymentLinkInput").value = order.paymentUrl;
+}
+
+document.querySelector("#saveQuoteButton").addEventListener("click", async () => {
+  const errorNote = document.querySelector("#quoteError");
+  errorNote.hidden = true;
+
+  const arrangementPrice = Number(document.querySelector("#quoteArrangement").value);
+  const deliveryFee = Number(document.querySelector("#quoteDelivery").value) || 0;
+
+  if (!(arrangementPrice > 0)) {
+    errorNote.textContent = "Enter an arrangement price before saving.";
+    errorNote.hidden = false;
+    return;
+  }
+
+  const button = document.querySelector("#saveQuoteButton");
+  button.disabled = true;
+  button.textContent = "Saving...";
+
+  try {
+    const order = await saveOrderQuote(orderNumber, { arrangementPrice, deliveryFee });
+    renderOrder(order);
+  } catch (err) {
+    errorNote.textContent = "Couldn't save this quote. Please try again.";
+    errorNote.hidden = false;
+  } finally {
+    button.disabled = false;
+    button.textContent = "Save Quote";
+  }
+});
+
+document.querySelector("#copyLinkButton").addEventListener("click", async () => {
+  const input = document.querySelector("#paymentLinkInput");
+  const button = document.querySelector("#copyLinkButton");
+  try {
+    await navigator.clipboard.writeText(input.value);
+    button.textContent = "Copied!";
+  } catch (err) {
+    // Clipboard API can be unavailable (e.g. non-HTTPS context) - fall
+    // back to letting Shelby select and copy the text herself.
+    input.select();
+    button.textContent = "Select & copy";
+  }
+  setTimeout(() => (button.textContent = "Copy"), 2000);
+});
+
+document.querySelector("#textCustomerButton").addEventListener("click", () => {
+  if (!currentOrder || !currentOrder.paymentUrl) return;
+
+  const text = [
+    "🌸 Your Shelby's Flower Fix quote is ready!",
+    "",
+    "Order:",
+    currentOrder.orderNumber,
+    "",
+    "Total:",
+    formatMoney(currentOrder.totalAmount),
+    "",
+    "Complete your payment securely:",
+    "",
+    currentOrder.paymentUrl,
+    "",
+    "Once payment is received, Shelby will confirm your order. 💐",
+  ].join("\n");
+
+  location.href = `sms:${currentOrder.customerPhone}?&body=${encodeURIComponent(text)}`;
+});
 
 // Which buttons show depends on where the order currently is, so Shelby
 // is guided toward the normal NEW -> PAID -> DESIGNING -> READY ->

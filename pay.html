@@ -19,104 +19,125 @@
       <a class="logo" href="index.html">Shelby's <span>Flower Fix</span></a>
     </header>
     <main class="pay-main">
-      <p class="eyebrow">Complete Your Payment</p>
-      <h1 id="payOrderNumber">SFF-000000-0000</h1>
-
-      <section class="receipt-card">
-        <div class="receipt-row receipt-customer">
-          <span class="receipt-label">Customer</span>
-          <span id="payCustomerName">—</span>
-        </div>
-        <div class="receipt-row receipt-summary">
-          <span class="receipt-label">Order Summary</span>
-          <div id="payOrderSummary">—</div>
-        </div>
-        <div class="receipt-divider"></div>
-        <div class="receipt-row">
-          <span>Arrangement</span><span id="payArrangementPrice">$0.00</span>
-        </div>
-        <div class="receipt-row">
-          <span>Delivery</span><span id="payDeliveryFee">$0.00</span>
-        </div>
-        <div class="receipt-row receipt-total">
-          <span>Total</span><span id="payTotal">$0.00</span>
-        </div>
-      </section>
-
-      <h2 class="pay-choose-heading">Choose How You'd Like to Pay</h2>
-
-      <!--
-        These are placeholder buttons — no payment provider is connected
-        yet. See pay.js for where the real Square/PayPal integrations will
-        be wired in (Phases 7-8), and the Zelle panel below for Phase 9.
-      -->
-      <div class="payment-options" id="paymentOptions">
-        <button type="button" class="payment-option" data-provider="card">
-          Credit / Debit Card
-        </button>
-        <button type="button" class="payment-option" data-provider="applepay">
-          Apple Pay
-        </button>
-        <button
-          type="button"
-          class="payment-option"
-          data-provider="googlepay"
-        >
-          Google Pay
-        </button>
-        <button type="button" class="payment-option" data-provider="cashapp">
-          Cash App
-        </button>
-        <button type="button" class="payment-option" data-provider="paypal">
-          PayPal
-        </button>
-        <button type="button" class="payment-option" data-provider="venmo">
-          Venmo
-        </button>
-        <button type="button" class="payment-option" data-provider="zelle">
-          Zelle
-        </button>
-      </div>
-
-      <!-- Revealed when "Zelle" is clicked above. Fill in Shelby's real
-           Zelle contact info and QR code image whenever they're ready. -->
-      <section id="zellePanel" class="zelle-panel" hidden>
-        <h3>Pay with Zelle</h3>
-        <p class="zelle-amount">
-          Amount Due: <strong id="zelleAmount">$0.00</strong>
-        </p>
-        <p class="zelle-order">
-          Order: <strong id="zelleOrderNumber">SFF-000000-0000</strong>
-        </p>
-        <div class="zelle-qr-placeholder">
-          <span>🌸</span>
-          <p>Zelle QR code coming soon</p>
-        </div>
-        <ol class="zelle-instructions">
-          <li>Open your banking app.</li>
-          <li>Select Zelle.</li>
-          <li>
-            Scan Shelby's QR code, or send to
-            <strong id="zelleContact">[Shelby's Zelle phone or email]</strong>.
-          </li>
-          <li>
-            Send exactly <strong id="zelleAmount2">$0.00</strong>.
-          </li>
-          <li>
-            Enter <strong id="zelleOrderNumber2">SFF-000000-0000</strong> in
-            the payment memo.
-          </li>
-        </ol>
-        <p class="zelle-note">
-          Once Shelby confirms she's received your Zelle payment, your order
-          will be marked as paid.
-        </p>
-      </section>
-
-      <p class="pay-disclaimer">
-        Payments are processed securely by Square or PayPal. Shelby's Flower
-        Fix never sees or stores your card details.
+      <p id="payError" class="admin-error" hidden>
+        This payment link isn't valid or has expired. Please contact Shelby
+        for a new one.
       </p>
+
+      <div id="payContent" hidden>
+        <p class="eyebrow">Complete Your Payment</p>
+        <h1 id="payOrderNumber">SFF-000000-0000</h1>
+
+        <section class="receipt-card">
+          <div class="receipt-row receipt-customer">
+            <span class="receipt-label">Customer</span>
+            <span id="payCustomerName">—</span>
+          </div>
+          <div class="receipt-row receipt-summary">
+            <span class="receipt-label">Order Summary</span>
+            <div id="payOrderSummary">—</div>
+          </div>
+          <div class="receipt-divider"></div>
+          <div class="receipt-row">
+            <span>Arrangement</span><span id="payArrangementPrice">$0.00</span>
+          </div>
+          <div class="receipt-row">
+            <span>Delivery</span><span id="payDeliveryFee">$0.00</span>
+          </div>
+          <div class="receipt-row receipt-total">
+            <span>Total</span><span id="payTotal">$0.00</span>
+          </div>
+        </section>
+
+        <p id="payAlreadyPaidNote" class="admin-note pay-paid-note" hidden>
+          🌸 This order has already been marked as paid. Thank you!
+        </p>
+
+        <div id="payChooseSection">
+          <h2 class="pay-choose-heading">Choose How You'd Like to Pay</h2>
+
+          <!--
+            These are placeholder buttons — no payment provider is connected
+            yet. See pay.js for where the real Square/PayPal integrations will
+            be wired in (Phases 7-8), and the Zelle panel below for Phase 9.
+          -->
+          <div class="payment-options" id="paymentOptions">
+            <button type="button" class="payment-option" data-provider="card">
+              Credit / Debit Card
+            </button>
+            <button
+              type="button"
+              class="payment-option"
+              data-provider="applepay"
+            >
+              Apple Pay
+            </button>
+            <button
+              type="button"
+              class="payment-option"
+              data-provider="googlepay"
+            >
+              Google Pay
+            </button>
+            <button
+              type="button"
+              class="payment-option"
+              data-provider="cashapp"
+            >
+              Cash App
+            </button>
+            <button type="button" class="payment-option" data-provider="paypal">
+              PayPal
+            </button>
+            <button type="button" class="payment-option" data-provider="venmo">
+              Venmo
+            </button>
+            <button type="button" class="payment-option" data-provider="zelle">
+              Zelle
+            </button>
+          </div>
+
+          <!-- Revealed when "Zelle" is clicked above. Fill in Shelby's real
+               Zelle contact info and QR code image whenever they're ready. -->
+          <section id="zellePanel" class="zelle-panel" hidden>
+            <h3>Pay with Zelle</h3>
+            <p class="zelle-amount">
+              Amount Due: <strong id="zelleAmount">$0.00</strong>
+            </p>
+            <p class="zelle-order">
+              Order: <strong id="zelleOrderNumber">SFF-000000-0000</strong>
+            </p>
+            <div class="zelle-qr-placeholder">
+              <span>🌸</span>
+              <p>Zelle QR code coming soon</p>
+            </div>
+            <ol class="zelle-instructions">
+              <li>Open your banking app.</li>
+              <li>Select Zelle.</li>
+              <li>
+                Scan Shelby's QR code, or send to
+                <strong id="zelleContact"
+                  >[Shelby's Zelle phone or email]</strong
+                >.
+              </li>
+              <li>Send exactly <strong id="zelleAmount2">$0.00</strong>.</li>
+              <li>
+                Enter <strong id="zelleOrderNumber2">SFF-000000-0000</strong>
+                in the payment memo.
+              </li>
+            </ol>
+            <p class="zelle-note">
+              Once Shelby confirms she's received your Zelle payment, your
+              order will be marked as paid.
+            </p>
+          </section>
+
+          <p class="pay-disclaimer">
+            Payments are processed securely by Square or PayPal. Shelby's
+            Flower Fix never sees or stores your card details.
+          </p>
+        </div>
+      </div>
     </main>
     <footer class="pay-footer">
       <p>© <span id="year"></span> Shelby's Flower Fix</p>
