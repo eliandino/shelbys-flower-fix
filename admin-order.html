@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#183c2c" />
+    <meta name="robots" content="noindex" />
+    <title>Order Details | Shelby's Flower Fix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" defer />
+  </head>
+  <body class="admin-page">
+    <header class="pay-header">
+      <a class="logo" href="index.html">Shelby's <span>Flower Fix</span></a>
+      <a class="admin-back" href="admin.html">← All Orders</a>
+    </header>
+    <main class="admin-main admin-detail-main">
+      <p id="adminDetailError" class="admin-error" hidden>
+        Couldn't load this order. Is the backend running?
+      </p>
+      <div id="adminDetail" class="admin-detail" hidden>
+        <div class="admin-detail-head">
+          <h1 id="detailOrderNumber"></h1>
+          <span id="detailStatusBadge" class="status-badge"></span>
+        </div>
+
+        <section class="admin-card">
+          <h2>Customer</h2>
+          <p id="detailCustomerName"></p>
+          <p><a id="detailCustomerPhone" href="#"></a></p>
+          <p id="detailCustomerEmailRow">
+            <a id="detailCustomerEmail" href="#"></a>
+          </p>
+        </section>
+
+        <section class="admin-card">
+          <h2>Request</h2>
+          <dl class="admin-fields">
+            <dt>Occasion</dt>
+            <dd id="detailOccasion"></dd>
+            <dt>Budget</dt>
+            <dd id="detailBudget"></dd>
+            <dt>Colors / Flowers</dt>
+            <dd id="detailColors"></dd>
+            <dt>Requested Date</dt>
+            <dd id="detailDate"></dd>
+            <dt>Pickup / Delivery</dt>
+            <dd id="detailFulfillment"></dd>
+            <dt id="detailAddressLabel">Address</dt>
+            <dd id="detailAddress"></dd>
+            <dt>Special Instructions</dt>
+            <dd id="detailInstructions"></dd>
+          </dl>
+        </section>
+
+        <section class="admin-card">
+          <h2>Pricing</h2>
+          <div class="receipt-row">
+            <span>Arrangement</span><span id="detailArrangement"></span>
+          </div>
+          <div class="receipt-row">
+            <span>Delivery</span><span id="detailDeliveryFee"></span>
+          </div>
+          <div class="receipt-row receipt-total">
+            <span>Total</span><span id="detailTotal"></span>
+          </div>
+          <p class="admin-note">
+            Setting a price is coming in the next phase — for now this just
+            shows what's on the order.
+          </p>
+        </section>
+
+        <section class="admin-card">
+          <h2>Payment</h2>
+          <p id="detailPaymentStatus"></p>
+        </section>
+
+        <div class="admin-actions" id="adminActions"></div>
+      </div>
+    </main>
+    <script src="admin-common.js" defer></script>
+    <script src="admin-order.js" defer></script>
+  </body>
+</html>

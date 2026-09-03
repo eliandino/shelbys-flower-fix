@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#183c2c" />
+    <meta name="robots" content="noindex" />
+    <title>Admin | Shelby's Flower Fix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" defer />
+  </head>
+  <body class="admin-page">
+    <header class="pay-header">
+      <a class="logo" href="index.html">Shelby's <span>Flower Fix</span></a>
+      <span class="admin-title">Admin</span>
+    </header>
+    <main class="admin-main">
+      <h1>Orders</h1>
+      <p id="adminEmpty" class="admin-empty" hidden>No orders yet.</p>
+      <p id="adminError" class="admin-error" hidden>
+        Couldn't load orders. Is the backend running?
+      </p>
+      <div id="adminOrderList" class="admin-order-list"></div>
+    </main>
+    <script src="admin-common.js" defer></script>
+    <script src="admin.js" defer></script>
+  </body>
+</html>

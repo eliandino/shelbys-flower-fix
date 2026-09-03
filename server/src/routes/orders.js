@@ -3,6 +3,7 @@ import rateLimit from "express-rate-limit";
 import { prisma } from "../lib/prisma.js";
 import { generateUniqueOrderNumber } from "../lib/orderNumber.js";
 import { createOrderSchema } from "../lib/orderValidation.js";
+import { toPublicOrder } from "../lib/orderSerializer.js";
 
 export const ordersRouter = Router();
 
@@ -15,14 +16,6 @@ const createOrderLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
-
-// Only fields safe to hand back to whoever is asking. Notably excludes
-// the internal database id and the paymentToken (that belongs only in a
-// payment link URL, never in a general API response).
-function toPublicOrder(order) {
-  const { id, paymentToken, paymentProviderTransactionId, ...safe } = order;
-  return safe;
-}
 
 ordersRouter.post("/", createOrderLimiter, async (req, res) => {
   const parsed = createOrderSchema.safeParse(req.body);

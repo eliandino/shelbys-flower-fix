@@ -810,6 +810,187 @@ dialog img {
   gap: 12px;
 }
 
+/* ===== Admin pages: admin.html, admin-order.html ===== */
+.admin-page {
+  background: var(--cream);
+}
+.admin-page .pay-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.admin-title,
+.admin-back {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green);
+}
+.admin-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+.admin-main h1 {
+  font-family: var(--serif);
+  color: var(--green);
+  font-size: clamp(28px, 4vw, 38px);
+  margin: 0 0 24px;
+}
+.admin-empty,
+.admin-error {
+  text-align: center;
+  color: var(--muted);
+  padding: 40px 0;
+}
+.admin-error {
+  color: var(--pink);
+}
+.admin-order-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.admin-order-card {
+  display: block;
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(30, 40, 30, 0.06);
+  transition: 0.2s;
+}
+.admin-order-card:hover {
+  box-shadow: 0 14px 36px rgba(30, 40, 30, 0.12);
+  transform: translateY(-2px);
+}
+.admin-order-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.admin-order-number {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.status-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.status-NEW {
+  background: var(--blush);
+  color: var(--pink);
+}
+.status-QUOTED,
+.status-AWAITING_PAYMENT,
+.status-PENDING {
+  background: #fbeedd;
+  color: #a5691b;
+}
+.status-PAID,
+.status-DESIGNING,
+.status-READY {
+  background: #e3ede7;
+  color: var(--green);
+}
+.status-DELIVERED {
+  background: var(--green);
+  color: white;
+}
+.status-CANCELLED,
+.status-UNPAID,
+.status-FAILED,
+.status-REFUNDED {
+  background: #eee;
+  color: var(--muted);
+}
+.admin-order-card h3 {
+  font-family: var(--serif);
+  font-size: 20px;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+.admin-order-card p {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.admin-order-date {
+  font-size: 12px;
+}
+.admin-detail-main {
+  max-width: 640px;
+}
+.admin-detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.admin-detail-head h1 {
+  font-family: var(--serif);
+  color: var(--green);
+  font-size: clamp(26px, 4vw, 32px);
+  margin: 0;
+}
+.admin-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 30px rgba(30, 40, 30, 0.06);
+}
+.admin-card h2 {
+  font-family: var(--serif);
+  color: var(--green);
+  font-size: 20px;
+  margin: 0 0 14px;
+}
+.admin-card p {
+  margin: 0 0 6px;
+}
+.admin-card a {
+  color: var(--pink);
+  font-weight: 600;
+}
+.admin-fields {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 10px 16px;
+  margin: 0;
+}
+.admin-fields dt {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: var(--muted);
+}
+.admin-fields dd {
+  margin: 0;
+}
+.admin-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 14px 0 0;
+}
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.admin-actions .btn {
+  width: auto;
+  padding: 14px 22px;
+}
+
 @media (max-width: 480px) {
   .moment-grid {
     grid-template-columns: 1fr;
@@ -828,5 +1009,12 @@ dialog img {
   }
   .hero h1 {
     font-size: 54px;
+  }
+  .admin-fields {
+    grid-template-columns: 1fr;
+    gap: 2px 0;
+  }
+  .admin-fields dt {
+    margin-top: 10px;
   }
 }

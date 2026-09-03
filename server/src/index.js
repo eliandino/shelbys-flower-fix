@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { ordersRouter } from "./routes/orders.js";
+import { adminOrdersRouter } from "./routes/adminOrders.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
@@ -23,6 +24,9 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/orders", ordersRouter);
+
+// Not authenticated yet - see the warning at the top of adminOrders.js.
+app.use("/api/admin/orders", adminOrdersRouter);
 
 // Must be registered last: Express only treats a 4-argument function as
 // error-handling middleware, and only errors from routes registered
