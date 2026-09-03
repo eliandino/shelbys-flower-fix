@@ -107,10 +107,15 @@ document
       (a.onclick = () =>
         document.querySelector("nav").classList.remove("open")),
   );
+// Where the backend from Phase 3 is running. Update this once the API has
+// a real deployed URL (see server/README.md) — there's no build step on
+// this static site to inject an environment-specific value automatically.
+const API_BASE_URL = "http://localhost:3001";
+
 // Builds a short, human-readable order number like SFF-260902-A7K4.
-// This is generated in the browser for now since there's no backend yet
-// (Phase 1). Once a backend exists (Phase 3-4), it becomes the source of
-// truth for order numbers and this becomes just a display fallback.
+// The backend generates the real one now (see API_BASE_URL above); this
+// is only used as a fallback if the request to the backend fails, so a
+// customer can still text Shelby even when the server is down.
 function generateOrderId() {
   const now = new Date();
   const yy = String(now.getFullYear()).slice(-2);
@@ -134,12 +139,33 @@ document.querySelector("#fulfillment").addEventListener("change", () => {
   deliveryAddress.required = isDelivery;
 });
 
-document.querySelector("#orderForm").addEventListener("submit", (e) => {
-  e.preventDefault();
+// Saves the order to the backend so Shelby can find it later (Phase 5's
+// admin dashboard) and returns the order number it assigned. Returns null
+// if the request fails for any reason, so the caller can fall back to a
+// locally-generated ID — the business shouldn't grind to a halt just
+// because the server is unreachable.
+async function createOrderOnBackend(payload) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/orders`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!response.ok) {
+      console.warn("Order request rejected by backend:", await response.text());
+      return null;
+    }
+    const order = await response.json();
+    return order.orderNumber;
+  } catch (err) {
+    console.warn("Could not reach the backend, using a local order ID:", err);
+    return null;
+  }
+}
 
-  const orderId = generateOrderId();
-  const isDelivery = fulfillment.value === "Delivery";
-
+// Builds the same order-request text Shelby has always gotten, and opens
+// the Messages app with it pre-filled.
+function textOrderToShelby(orderId, isDelivery) {
   // Each entry becomes one line of the text to Shelby; `null` entries are
   // dropped so optional fields don't show up as empty lines.
   const lines = [
@@ -168,6 +194,34 @@ document.querySelector("#orderForm").addEventListener("submit", (e) => {
 
   const msg = encodeURIComponent(lines.join("\n"));
   location.href = `sms:+19046163373?&body=${msg}`;
+}
+
+document.querySelector("#orderForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const isDelivery = fulfillment.value === "Delivery";
+  const submitButton = e.target.querySelector('button[type="submit"]');
+
+  submitButton.disabled = true;
+  submitButton.textContent = "Sending...";
+
+  const orderNumber = await createOrderOnBackend({
+    customerName: customerName.value,
+    customerPhone: customerPhone.value,
+    customerEmail: customerEmail.value,
+    occasion: occasion.value,
+    budgetRange: budget.value,
+    favoriteColorsFlowers: colors.value,
+    requestedDate: date.value,
+    fulfillmentType: isDelivery ? "DELIVERY" : "PICKUP",
+    deliveryAddress: isDelivery ? deliveryAddress.value : "",
+    specialInstructions: specialInstructions.value,
+  });
+
+  textOrderToShelby(orderNumber || generateOrderId(), isDelivery);
+
+  submitButton.disabled = false;
+  submitButton.textContent = "Text Shelby My Request";
 });
 const io = new IntersectionObserver(
   (es) =>
