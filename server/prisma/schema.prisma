@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// The lifecycle stages an order moves through, in order.
+enum OrderStatus {
+  NEW // customer just submitted the request
+  QUOTED // Shelby set a price, hasn't sent payment link yet
+  AWAITING_PAYMENT // payment link sent, waiting on the customer
+  PAID
+  DESIGNING
+  READY
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PENDING // provider says a payment attempt is in flight
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum FulfillmentType {
+  PICKUP
+  DELIVERY
+}
+
+model Order {
+  id String @id @default(cuid())
+
+  // Human-readable ID shown to the customer and used in texts, e.g.
+  // SFF-260902-A7K4. Safe to share since it's not used to authorize
+  // anything by itself.
+  orderNumber String @unique
+
+  // Long, unguessable token used only in the customer's payment link
+  // (/pay/<paymentToken>), so the URL itself never reveals or grants
+  // access based on the human-readable order number. Null until Shelby
+  // generates a quote/payment link for this order.
+  paymentToken String? @unique
+
+  customerName  String
+  customerPhone String
+  customerEmail String?
+
+  occasion               String?
+  budgetRange            String?
+  favoriteColorsFlowers  String?
+  requestedDate          DateTime?
+
+  fulfillmentType     FulfillmentType @default(PICKUP)
+  deliveryAddress     String?
+  specialInstructions String?
+
+  // All money fields are stored as integer cents (e.g. 7500 = $75.00) to
+  // avoid floating-point rounding errors. totalAmount is always
+  // arrangementPrice + deliveryFee, computed server-side.
+  arrangementPrice Int?
+  deliveryFee      Int?
+  totalAmount      Int?
+
+  status OrderStatus @default(NEW)
+
+  paymentStatus                PaymentStatus @default(UNPAID)
+  paymentMethod                String?
+  paymentProvider              String?
+  paymentProviderTransactionId String?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  paidAt      DateTime?
+  completedAt DateTime?
+
+  @@index([status])
+}
