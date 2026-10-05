@@ -4,12 +4,12 @@ const images = Array.from(
   (_, i) => `assets/images/flower-${i + 1}.jpg`,
 );
 const titles = [
-  "Seasonal Joy",
-  "Thinking of You",
-  "Garden Celebration",
-  "A Little Encouragement",
+  "Kidney Transplant Recipient",
+  "Pediatric Cardiac Surgery",
+  "Summer Time",
+  "Easter",
   "Spring Cheer",
-  "Made with Love",
+  "Love And Hugs",
 ];
 const categories = ["seasonal", "comfort", "celebration"];
 const placeholderDesc =
