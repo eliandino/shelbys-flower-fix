@@ -91,6 +91,8 @@ nav {
   position: absolute;
   inset: 0;
   background: rgb(247, 217, 245);
+  margin-bottom: 50px;
+  
 }
 .hero-decor {
   position: absolute;

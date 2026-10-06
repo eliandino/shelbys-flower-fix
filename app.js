@@ -1,24 +1,32 @@
 "use strict";
-const images = Array.from(
-  { length: 18 },
-  (_, i) => `assets/images/flower-${i + 1}.jpg`,
-);
-const titles = [
-  "Kidney Transplant Recipient",
-  "Pediatric Cardiac Surgery",
-  "Summer Time",
-  "Easter",
-  "Spring Cheer",
-  "Love And Hugs",
+// One entry per photo. src is the file name in assets/images/.
+// cat must be "seasonal", "comfort" or "celebration" (matches the gallery filter buttons).
+// desc is left empty on purpose so descriptions can be added later.
+const photos = [
+  { src: "flower-1.jpg", title: "Kidney Transplant Recipient", cat: "seasonal", desc: "" }, 
+  { src: "flower-2.jpg", title: "Pediatric Cardiac Surgery, Brave Little Girl!", cat: "comfort", desc: "" },
+  { src: "flower-3.jpg", title: "Summer Time", cat: "celebration", desc: "" },
+  { src: "flower-4.jpg", title: "Holiday", cat: "seasonal", desc: "" },
+  { src: "flower-5.jpg", title: "Spring Cheer", cat: "comfort", desc: "" },
+  { src: "flower-6.jpg", title: "Love And Hugs", cat: "celebration", desc: "" },
+  { src: "flower-7.jpg", title: "Made with Love", cat: "seasonal", desc: "" },
+  { src: "flower-8.jpg", title: "Guardian Angel - Love and Strength", cat: "comfort", desc: "" },
+  { src: "flower-9.jpg", title: "Local Pick-Up Available", cat: "celebration", desc: "" },
+  { src: "flower-10.jpg", title: "Mother's Day", cat: "seasonal", desc: "" },
+  { src: "flower-11.jpg", title: "Holidays", cat: "seasonal", desc: "" },
+  { src: "flower-12.jpg", title: "Made with Love", cat: "celebration", desc: "" },
+  { src: "flower-13.jpg", title: "Holiday", cat: "seasonal", desc: "" },
+  { src: "flower-14.jpg", title: "St. Patrick's Day - Celebration", cat: "celebration", desc: "" },
+  { src: "flower-15.jpg", title: "Teacher Appreciation", cat: "celebration", desc: "" },
+  { src: "flower-17.jpg", title: "Breast Cancer Survivor", cat: "comfort", desc: "" },
+  { src: "flower-18.jpg", title: "Made with Love", cat: "celebration", desc: "" },
 ];
-const categories = ["seasonal", "comfort", "celebration"];
-const placeholderDesc =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+const images = photos.map((p) => `assets/images/${p.src}`);
 const carousel = document.querySelector("#carousel");
 images.slice(0, 8).forEach((src, i) => {
   carousel.insertAdjacentHTML(
     "beforeend",
-    `<article class="card"><img src="${src}" alt="Shelby floral arrangement ${i + 1}" loading="lazy"><div><h3>${titles[i % titles.length]}</h3><span>Handcrafted with heart ♡</span></div></article>`,
+    `<article class="card"><img src="${src}" alt="Shelby floral arrangement ${i + 1}" loading="lazy"><div><h3>${photos[i].title}</h3><span>Handcrafted with heart ♡</span></div></article>`,
   );
 });
 function pauseThenResumeCarousel() {
@@ -58,11 +66,11 @@ let current = 0;
 function renderGallery(filter = "all") {
   grid.innerHTML = "";
   images.forEach((src, i) => {
-    const cat = categories[i % 3];
+    const { title, cat, desc } = photos[i];
     if (filter === "all" || filter === cat)
       grid.insertAdjacentHTML(
         "beforeend",
-        `<figure data-index="${i}" data-cat="${cat}"><img src="${src}" alt="Custom floral design ${i + 1}" loading="lazy"><figcaption><h4>${titles[i % titles.length]}</h4><p>${placeholderDesc}</p></figcaption></figure>`,
+        `<figure data-index="${i}" data-cat="${cat}"><img src="${src}" alt="Custom floral design ${i + 1}" loading="lazy"><figcaption><h4>${title}</h4><p>${desc}</p></figcaption></figure>`,
       );
   });
 }
@@ -82,8 +90,8 @@ const dlg = document.querySelector("#lightbox"),
 function showImage(i) {
   current = i;
   lb.src = images[current];
-  lbTitle.textContent = titles[current % titles.length];
-  lbDesc.textContent = placeholderDesc;
+  lbTitle.textContent = photos[current].title;
+  lbDesc.textContent = photos[current].desc;
 }
 grid.addEventListener("click", (e) => {
   const f = e.target.closest("figure");
