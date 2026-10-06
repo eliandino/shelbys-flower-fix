@@ -1,15 +1,23 @@
-const DEFAULT_ORIGINS = "http://localhost:5500,http://127.0.0.1:5500";
+const DEFAULT_SITES = "http://localhost:5500,http://127.0.0.1:5500";
 
-// All origins allowed to call this API from a browser (used for CORS).
-export function getAllowedOrigins() {
-  return (process.env.FRONTEND_ORIGIN || DEFAULT_ORIGINS)
+// FRONTEND_ORIGIN is a comma-separated list of the site's base URLs. A URL
+// may include a path, e.g. https://eliandino.github.io/shelbys-flower-fix
+// on GitHub Pages.
+function getSiteUrls() {
+  return (process.env.FRONTEND_ORIGIN || DEFAULT_SITES)
     .split(",")
-    .map((origin) => origin.trim());
+    .map((url) => url.trim().replace(/\/+$/, ""));
 }
 
-// The one origin used to build links that get sent to customers (e.g. a
+// All origins allowed to call this API from a browser (used for CORS).
+// A browser's Origin header never has a path, so only scheme + host count.
+export function getAllowedOrigins() {
+  return getSiteUrls().map((url) => new URL(url).origin);
+}
+
+// The one base URL used to build links that get sent to customers (e.g. a
 // payment link in a text message). The first entry in FRONTEND_ORIGIN is
 // treated as the "real" one.
 export function getFrontendBaseUrl() {
-  return getAllowedOrigins()[0];
+  return getSiteUrls()[0];
 }

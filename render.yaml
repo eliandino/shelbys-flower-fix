@@ -1,0 +1,20 @@
+# Render Blueprint for the backend API in server/. The static site itself
+# stays on GitHub Pages. See server/README.md for setup steps.
+services:
+  - type: web
+    name: shelbys-flower-fix-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false # paste the Neon connection string when prompted
+      - key: ADMIN_PASSWORD
+        sync: false # Shelby's admin password, entered when prompted
+      - key: ADMIN_SESSION_SECRET
+        generateValue: true
+      - key: FRONTEND_ORIGIN
+        value: https://eliandino.github.io/shelbys-flower-fix

@@ -1,10 +1,5 @@
 "use strict";
 
-// Same note as in app.js/admin-common.js: no build step on this static
-// site to inject an environment-specific value, so update this once the
-// backend has a real deployed URL.
-const API_BASE_URL = "http://localhost:3001";
-
 const params = new URLSearchParams(location.search);
 const token = params.get("token");
 

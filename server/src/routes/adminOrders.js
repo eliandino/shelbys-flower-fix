@@ -5,10 +5,8 @@ import { toPublicOrder } from "../lib/orderSerializer.js";
 import { generateUniquePaymentToken } from "../lib/paymentToken.js";
 import { getFrontendBaseUrl } from "../lib/frontendUrl.js";
 
-// IMPORTANT: nothing in here is protected yet. That's Phase 11 (admin
-// authentication). This is fine for local development, but this API must
-// not be deployed anywhere publicly reachable until a login sits in
-// front of everything mounted under /api/admin.
+// Every route here requires Shelby's admin login - see requireAdmin in
+// index.js and lib/adminAuth.js.
 export const adminOrdersRouter = Router();
 
 // Same as toPublicOrder, but also includes the shareable payment link

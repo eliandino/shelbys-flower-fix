@@ -83,16 +83,7 @@ ordersRouter.get(
   },
 );
 
-// Looked up by the human-readable order number rather than the internal
-// id, since that's the only identifier the customer actually has.
-ordersRouter.get("/:orderNumber", async (req, res) => {
-  const order = await prisma.order.findUnique({
-    where: { orderNumber: req.params.orderNumber },
-  });
-
-  if (!order) {
-    return res.status(404).json({ error: "Order not found." });
-  }
-
-  res.json(toPublicOrder(order));
-});
+// There's deliberately no public lookup by order number: order numbers
+// are short and printed in texts, so anyone could guess one and see the
+// customer's name, phone and address. Shelby looks orders up through the
+// admin routes instead.

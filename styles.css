@@ -852,6 +852,35 @@ dialog img {
   font-size: clamp(28px, 4vw, 38px);
   margin: 0 0 24px;
 }
+.admin-login {
+  max-width: 400px;
+  margin-top: 40px;
+}
+.admin-login label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.admin-login input {
+  width: 100%;
+  padding: 12px;
+  margin: 6px 0 16px;
+  border: 1px solid #d8d4cd;
+  border-radius: 10px;
+  background: white;
+  font: inherit;
+}
+.admin-login .admin-error {
+  padding: 0 0 16px;
+  text-align: left;
+}
+.admin-logout {
+  padding: 8px 16px;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+}
 .admin-empty,
 .admin-error {
   text-align: center;

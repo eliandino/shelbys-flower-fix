@@ -2,25 +2,46 @@
 
 A small Node.js + Express API backing the order/quote/payment system. This
 is completely separate from the static frontend (`index.html`, `pay.html`,
-etc. one level up) — it's not part of the GitHub Pages site and needs its
-own hosting once it's ready to go live (see the project notes on hosting).
+etc. one level up): the site stays on GitHub Pages, and this API is hosted
+on Render with its database on Neon.
 
 ## Why this exists
 
-Phase 1-2 of the project (the order form and the payment pages) work
-entirely in the browser, with no real source of truth for orders or
-prices. This server is that source of truth: it's the only thing allowed
-to decide what an order number is, what an order costs, and whether it's
-been paid.
+The order form and payment pages run in the customer's browser, which
+can't be trusted to decide prices. This server is the source of truth: it's
+the only thing allowed to decide what an order number is, what an order
+costs, and whether it's been paid.
 
 ## Stack
 
 - **Express** — the HTTP server
-- **Prisma + SQLite** — the database, for local development. Production
-  will point this at a real Postgres database instead (a one-line change
-  in `.env`); the code doesn't need to change.
+- **Prisma + Postgres** — the database (Neon in production)
 - **Zod** — validates incoming request data
-- **express-rate-limit** — basic abuse protection on public endpoints
+- **express-rate-limit** — basic abuse protection on public endpoints and
+  the admin login
+
+## Going live (one-time setup)
+
+1. **Database (Neon):** sign up at https://neon.tech, create a project, and
+   copy its connection string (starts with `postgresql://`).
+2. **Server (Render):** sign up at https://render.com with GitHub, choose
+   **New > Blueprint**, and pick this repository. Render reads
+   `render.yaml` in the repo root and asks for:
+   - `DATABASE_URL` — the Neon connection string from step 1
+   - `ADMIN_PASSWORD` — the password Shelby will use on the admin pages
+3. Wait for the deploy to finish, then open
+   `https://<your-service>.onrender.com/health` — it should show
+   `{"ok":true}`.
+4. If Render gave the service a different address than
+   `https://shelbys-flower-fix-api.onrender.com`, update `API_BASE_URL` in
+   `config.js` (repo root) to match, then commit and push.
+
+Every push to `main` redeploys the server. Database changes in
+`prisma/migrations` are applied automatically by the build step.
+
+On Render's free plan the server sleeps after 15 minutes without traffic,
+so the first request after that takes up to a minute. Render's $7/month
+plan keeps it awake.
 
 ## Local setup
 
@@ -28,32 +49,35 @@ been paid.
 cd server
 npm install
 cp .env.example .env
-npm run migrate
+npm run build
 npm run dev
 ```
 
-- `npm install` — installs dependencies
-- `cp .env.example .env` — creates your local config (already defaults to
-  a local SQLite file, no changes needed to just try it out)
-- `npm run migrate` — creates `prisma/dev.db` and applies the schema
+- `cp .env.example .env` — then fill in `.env`. Use a separate Neon branch
+  for `DATABASE_URL` so testing never touches real orders, and set any
+  `ADMIN_PASSWORD` / `ADMIN_SESSION_SECRET` you like.
+- `npm run build` — generates the Prisma client and applies migrations
 - `npm run dev` — starts the API on http://localhost:3001, restarting on
-  file changes
+  file changes. The site pages use it automatically when opened from
+  `localhost` (see `config.js`).
+- `npm run migrate` — after changing `prisma/schema.prisma`, creates a new
+  migration
 
-## Endpoints so far (Phase 3)
+## Endpoints
+
+Public:
 
 - `GET /health` — returns `{ ok: true }` if the server is running
-- `POST /api/orders` — creates an order (used by the order form in a
-  later phase)
-- `GET /api/orders/:orderNumber` — fetches one order by its public order
-  number (e.g. `SFF-260902-A7K4`)
+- `POST /api/orders` — creates an order from the order form
+- `GET /api/orders/by-token/:token` — the order behind a payment link
+  (powers `pay.html`)
 
-Prices, quotes, payment links, and the admin routes come in later phases
-— see the project's phase plan.
+Admin (all need `Authorization: Bearer <token>` from the login):
 
-## A note on what's NOT done yet
-
-This API currently has **no authentication** on any route. That's fine
-while it's only running on your own machine, but nothing here should be
-deployed publicly until the admin routes (Phase 5+) are behind a login
-(Phase 11). Don't point `FRONTEND_ORIGIN` at a real domain or deploy this
-until then.
+- `POST /api/admin/login` — `{ password }` in, `{ token }` out (valid 12
+  hours)
+- `GET /api/admin/orders` and `GET /api/admin/orders/:orderNumber`
+- `PATCH /api/admin/orders/:orderNumber/quote` — sets the price (in
+  dollars) and creates the payment link
+- `PATCH /api/admin/orders/:orderNumber/status`
+- `PATCH /api/admin/orders/:orderNumber/mark-paid`

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",
+    "build": "prisma generate && prisma migrate deploy",
     "migrate": "prisma migrate dev",
     "studio": "prisma studio"
   },
@@ -14,9 +15,10 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-rate-limit": "^8.7.0",
+    "prisma": "^6.19.3",
     "zod": "^4.5.4"
   },
-  "devDependencies": {
-    "prisma": "^6.19.3"
+  "engines": {
+    "node": ">=20"
   }
 }

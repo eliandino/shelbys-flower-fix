@@ -115,13 +115,9 @@ document
       (a.onclick = () =>
         document.querySelector("nav").classList.remove("open")),
   );
-// Where the backend from Phase 3 is running. Update this once the API has
-// a real deployed URL (see server/README.md) — there's no build step on
-// this static site to inject an environment-specific value automatically.
-const API_BASE_URL = "http://localhost:3001";
 
 // Builds a short, human-readable order number like SFF-260902-A7K4.
-// The backend generates the real one now (see API_BASE_URL above); this
+// The backend generates the real one now (see config.js); this
 // is only used as a fallback if the request to the backend fails, so a
 // customer can still text Shelby even when the server is down.
 function generateOrderId() {
