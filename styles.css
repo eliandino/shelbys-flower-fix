@@ -768,6 +768,10 @@ dialog img {
   display: block;
   margin-bottom: 8px;
 }
+.manual-pay-link {
+  display: inline-block;
+  margin: 6px 0 10px;
+}
 .zelle-instructions {
   padding-left: 20px;
 }

@@ -10,6 +10,10 @@ const token = params.get("token");
 
 const money = (cents) => `$${(cents / 100).toFixed(2)}`;
 
+// Shelby's accounts. Also shown in the instructions in pay.html.
+const CASH_APP_TAG = "$ShelbyRiggs73";
+const VENMO_USERNAME = "shelbyfsu73";
+
 // --- Real orders: fetched by secure token (Phase 6+) --------------------
 // Shelby's admin dashboard generates this link after saving a quote. The
 // backend is the only source of truth for the price here — this page
@@ -90,10 +94,21 @@ function renderOrder(order) {
   );
   document.querySelector("#payTotal").textContent = money(total);
 
-  document.querySelector("#zelleAmount").textContent = money(total);
-  document.querySelector("#zelleAmount2").textContent = money(total);
-  document.querySelector("#zelleOrderNumber").textContent = order.orderNumber;
-  document.querySelector("#zelleOrderNumber2").textContent = order.orderNumber;
+  document
+    .querySelectorAll(".pay-amount")
+    .forEach((el) => (el.textContent = money(total)));
+  document
+    .querySelectorAll(".pay-order-number")
+    .forEach((el) => (el.textContent = order.orderNumber));
+
+  // Pre-fill the amount (and the order number, where the app allows it)
+  // so the customer only has to confirm in the app.
+  const amount = (total / 100).toFixed(2);
+  const note = encodeURIComponent(`Order ${order.orderNumber}`);
+  document.querySelector("#cashAppLink").href =
+    `https://cash.app/${CASH_APP_TAG}/${amount}`;
+  document.querySelector("#venmoLink").href =
+    `https://venmo.com/${VENMO_USERNAME}?txn=pay&amount=${amount}&note=${note}`;
 
   if (order.alreadyPaid) {
     document.querySelector("#payAlreadyPaidNote").hidden = false;
@@ -101,25 +116,23 @@ function renderOrder(order) {
   }
 }
 
-const zellePanel = document.querySelector("#zellePanel");
-
-// Payment option buttons are placeholders until each provider is wired up:
-//   card / apple pay / google pay / cash app  -> Square (Phase 7)
-//   paypal / venmo                            -> PayPal (Phase 8)
-//   zelle                                     -> manual verification (Phase 9)
+// Each payment button toggles its matching instructions panel and closes
+// the others. Cash App, Venmo and Zelle are paid straight to Shelby and
+// confirmed by hand; card / apple pay / google pay (Square, Phase 7) and
+// paypal (Phase 8) have no panel yet.
+const panels = document.querySelectorAll("[data-panel]");
 document.querySelectorAll(".payment-option").forEach((button) => {
   button.addEventListener("click", () => {
     const provider = button.dataset.provider;
+    const panel = document.querySelector(`[data-panel="${provider}"]`);
+    if (!panel) return; // TODO: open the real checkout once it's configured.
 
-    if (provider === "zelle") {
-      zellePanel.hidden = !zellePanel.hidden;
-      if (!zellePanel.hidden) {
-        zellePanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-      return;
+    const opening = panel.hidden;
+    panels.forEach((p) => (p.hidden = true));
+    panel.hidden = !opening;
+    if (opening) {
+      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
-
-    // TODO: open the real checkout for this provider once it's configured.
   });
 });
 
